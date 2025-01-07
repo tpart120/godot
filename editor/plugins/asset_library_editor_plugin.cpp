@@ -837,6 +837,7 @@ void EditorAssetLibrary::_image_update(bool p_use_cache, bool p_final, const Pac
 	uint8_t png_signature[8] = { 137, 80, 78, 71, 13, 10, 26, 10 };
 	uint8_t jpg_signature[3] = { 255, 216, 255 };
 	uint8_t webp_signature[4] = { 82, 73, 70, 70 };
+	uint8_t exr_signature[4] = { 118, 47, 49, 1 };
 	uint8_t bmp_signature[2] = { 66, 77 };
 
 	if (r) {
@@ -850,6 +851,8 @@ void EditorAssetLibrary::_image_update(bool p_use_cache, bool p_final, const Pac
 			parsed_image = Image::_webp_mem_loader_func(r, len);
 		} else if ((memcmp(&r[0], &bmp_signature[0], 2) == 0) && Image::_bmp_mem_loader_func) {
 			parsed_image = Image::_bmp_mem_loader_func(r, len);
+		} else if ((memcmp(&r[0], &exr_signature[0], 4) == 0) && Image::_exr_mem_loader_func) {
+			parsed_image = Image::_exr_mem_loader_func(r, len);
 		} else if (Image::_svg_scalable_mem_loader_func) {
 			parsed_image = Image::_svg_scalable_mem_loader_func(r, len, 1.0);
 		}

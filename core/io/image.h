@@ -198,6 +198,7 @@ public:
 	static ImageMemLoadFunc _jpg_mem_loader_func;
 	static ImageMemLoadFunc _webp_mem_loader_func;
 	static ImageMemLoadFunc _tga_mem_loader_func;
+	static ImageMemLoadFunc _exr_mem_loader_func;
 	static ImageMemLoadFunc _bmp_mem_loader_func;
 	static ScalableImageMemLoadFunc _svg_scalable_mem_loader_func;
 	static ImageMemLoadFunc _ktx_mem_loader_func;
@@ -400,6 +401,7 @@ public:
 	Error load_jpg_from_buffer(const Vector<uint8_t> &p_array);
 	Error load_webp_from_buffer(const Vector<uint8_t> &p_array);
 	Error load_tga_from_buffer(const Vector<uint8_t> &p_array);
+	Error load_exr_from_buffer(const Vector<uint8_t> &p_array);
 	Error load_bmp_from_buffer(const Vector<uint8_t> &p_array);
 	Error load_ktx_from_buffer(const Vector<uint8_t> &p_array);
 

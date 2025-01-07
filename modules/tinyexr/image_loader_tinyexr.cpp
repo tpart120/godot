@@ -32,6 +32,7 @@
 
 #include <zlib.h> // Should come before including tinyexr.
 
+#include "core/io/file_access_memory.h"
 #include "thirdparty/tinyexr/tinyexr.h"
 
 Error ImageLoaderTinyEXR::load_image(Ref<Image> p_image, Ref<FileAccess> f, BitField<ImageFormatLoader::LoaderFlags> p_flags, float p_scale) {
@@ -287,9 +288,23 @@ Error ImageLoaderTinyEXR::load_image(Ref<Image> p_image, Ref<FileAccess> f, BitF
 	return OK;
 }
 
+static Ref<Image> _exr_mem_loader_func(const uint8_t *p_exr, int p_size) {
+	Ref<FileAccessMemory> memfile;
+	memfile.instantiate();
+	Error open_memfile_error = memfile->open_custom(p_exr, p_size);
+	ERR_FAIL_COND_V_MSG(open_memfile_error, Ref<Image>(), "Could not create memfile for EXR image buffer.");
+
+	Ref<Image> img;
+	img.instantiate();
+	Error load_error = ImageLoaderTinyEXR().load_image(img, memfile, false, 1.0f);
+	ERR_FAIL_COND_V_MSG(load_error, Ref<Image>(), "Failed to load EXR image.");
+	return img;
+}
+
 void ImageLoaderTinyEXR::get_recognized_extensions(List<String> *p_extensions) const {
 	p_extensions->push_back("exr");
 }
 
 ImageLoaderTinyEXR::ImageLoaderTinyEXR() {
+	Image::_exr_mem_loader_func = _exr_mem_loader_func;
 }

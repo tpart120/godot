@@ -110,6 +110,19 @@ TEST_CASE("[Image] Saving and loading") {
 			image->get_data() == image_load->get_data(),
 			"The loaded image should have the same data as the one that got saved.");
 
+#ifdef MODULE_EXR_ENABLED
+	// Load EXR
+	Ref<Image> image_exr = memnew(Image());
+	Ref<FileAccess> f_exr = FileAccess::open(TestUtils::get_data_path("images/icon.exr"), FileAccess::READ, &err);
+	REQUIRE(f_exr.is_valid());
+	PackedByteArray data_exr;
+	data_exr.resize(f_exr->get_length() + 1);
+	f_exr->get_buffer(data_exr.ptrw(), f_exr->get_length());
+	CHECK_MESSAGE(
+			image_exr->load_exr_from_buffer(data_exr) == OK,
+			"The EXR image should load successfully.");
+#endif // MODULE_EXR_ENABLED
+
 #ifdef MODULE_BMP_ENABLED
 	// Load BMP
 	Ref<Image> image_bmp = memnew(Image());

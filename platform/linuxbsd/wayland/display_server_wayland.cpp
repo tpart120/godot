@@ -446,6 +446,8 @@ Ref<Image> DisplayServerWayland::clipboard_get_image() const {
 		err = image->load_svg_from_buffer(wayland_thread.selection_get_mime("image/svg+xml"));
 	} else if (wayland_thread.selection_has_mime("image/bmp")) {
 		err = image->load_bmp_from_buffer(wayland_thread.selection_get_mime("image/bmp"));
+	} else if (wayland_thread.selection_has_mime("image/x-exr")) {
+		err = image->load_exr_from_buffer(wayland_thread.selection_get_mime("image/x-exr"));
 	} else if (wayland_thread.selection_has_mime("image/x-tga")) {
 		err = image->load_tga_from_buffer(wayland_thread.selection_get_mime("image/x-tga"));
 	} else if (wayland_thread.selection_has_mime("image/x-targa")) {
