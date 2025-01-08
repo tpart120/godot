@@ -1,5 +1,5 @@
 def can_build(env, platform):
-    return env.editor_build
+    return env["tinyexr_export_templates"] or env.editor_build
 
 def get_opts(platform):
     from SCons.Variables import BoolVariable
